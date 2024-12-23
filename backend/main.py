@@ -1,3 +1,5 @@
+import os
+import json
 from fastapi import FastAPI, HTTPException, Depends, Query
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, String
@@ -7,7 +9,6 @@ from sqlalchemy.orm import sessionmaker, Session
 from models import Transaction, Base
 from datetime import datetime
 from typing import Optional
-import json
 
 import logging
 from fastapi import Request
@@ -25,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 # SQLAlchemy setup
 # DATABASE_URL = "sqlite:///./test.db"
-DATABASE_URL = "postgresql://newuser:mypassword@localhost:5432/mydatabase"
+DATABASE_URL = os.environ['POSTGRES_URL']
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
